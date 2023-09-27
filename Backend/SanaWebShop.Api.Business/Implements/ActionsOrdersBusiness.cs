@@ -18,9 +18,9 @@ namespace SanaWebShop.Api.Business.Implements
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<string> CreateShoppingCart(PreOrderDto preOrder)
+        public async Task<int> CreateShoppingCart(PreOrderDto preOrder)
         {
-            string result = string.Empty;
+            int result = 0;
             try
             {
                 if (preOrder.Products.Any())
@@ -31,8 +31,8 @@ namespace SanaWebShop.Api.Business.Implements
                     };
                     _unitOfWork.Orders.Add(order);
                     await _unitOfWork.Orders.Save();
-                    AddPreOrderDetail(preOrder.Products, order.Id);
-                    result = "ok";
+                    await AddPreOrderDetail(preOrder.Products, order.Id);
+                    result = order.Id;
                 }
             }
             catch (Exception ex)
@@ -131,7 +131,7 @@ namespace SanaWebShop.Api.Business.Implements
                         throw new Exception("There is no stock available for the product (" + product.CodeProduct + ").");
                     }
                 }
-                await _unitOfWork.Products.AddRangeAsync(prodLst);
+                _unitOfWork.Products.UpdateRange(prodLst);
                 var order = await _unitOfWork.Orders.GetByIdAsync(idOrder);
                 order.Status = true;
                 _unitOfWork.Orders.Update(order);
@@ -146,7 +146,7 @@ namespace SanaWebShop.Api.Business.Implements
             return result;
         }
 
-        private async void AddPreOrderDetail(ICollection<ProductsToOrderDto> products, int orderId)
+        private async Task AddPreOrderDetail(ICollection<ProductsToOrderDto> products, int orderId)
         {
             foreach (var product in products)
             {

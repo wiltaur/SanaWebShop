@@ -57,5 +57,13 @@ namespace SanaWebShop.Api.Repository.Implements
             _dbSet.Attach(data);
             _context.Entry(data).State = EntityState.Modified;
         }
+        public void UpdateRange(IEnumerable<TEntity> data)
+        {
+            foreach(TEntity item in data)
+            {
+                _dbSet.Attach(item);
+                _context.Entry(item).State = EntityState.Modified;
+            }
+        }
     }
 }

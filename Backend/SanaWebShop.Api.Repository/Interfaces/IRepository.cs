@@ -18,7 +18,7 @@ namespace SanaWebShop.Api.Repository.Interfaces
         void DeleteById(int id);
         void DeleteByCode(string code);
         void Update(TEntity data);
-
+        void UpdateRange(IEnumerable<TEntity> data);
         Task Save();
     }
 }

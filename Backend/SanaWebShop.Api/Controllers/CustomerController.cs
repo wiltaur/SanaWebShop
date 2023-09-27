@@ -23,7 +23,7 @@ namespace SanaWebShop.Api.Controllers
         /// <summary>
         /// Method to create a Customer.
         /// </summary>
-        /// <param name="category"></param>
+        /// <param name="name"></param>
         /// <returns>Id from Customer created.</returns>
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiResponse<int>))]
         [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(ApiResponse<int>))]

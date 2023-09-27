@@ -34,9 +34,9 @@ namespace SanaWebShop.Api.Controllers
             try
             {
                 var res = await _bus.CreateShoppingCart(preOrder);
-                var response = new ApiResponse<string>(res)
+                var response = new ApiResponse<int>(res)
                 {
-                    IsSuccess = res == "ok"
+                    IsSuccess = res > 0
                 };
                 return response.IsSuccess ? Ok(response) : NotFound(response);
             }
